@@ -1,6 +1,6 @@
 package main
 
-// longest substring without repeating characters
+// longest substring without repeating characters ----- sliding window problem
 func longestSubstring(s string) int {
 	charIndex := make(map[byte]int) // make(map[rune]int)
 	start, result := 0, 0
