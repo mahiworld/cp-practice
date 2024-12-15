@@ -18,3 +18,35 @@ func mergeSortedArrays(arr1, arr2 []int) []int {
 
 	return arr
 }
+
+func isAscending(arr []int) bool {
+	for i := 0; i < len(arr)-1; i++ {
+		if arr[i] > arr[i+1] {
+			return false
+		}
+	}
+	return true
+}
+
+// rearrange as [max, min, second_max, second_min, ...] pattern ------ 2 pointers problem
+func rearrangeOutPlace(arr []int) []int {
+	newArr := make([]int, 0)
+	n := len(arr)
+
+	if isAscending(arr) {
+		for i := 0; i < n/2; i++ {
+			newArr = append(newArr, arr[n-1-i], arr[i])
+		}
+	} else {
+		for i := 0; i < n/2; i++ {
+			newArr = append(newArr, arr[i], arr[n-1-i])
+		}
+	}
+
+	// If the length is odd, append the middle element
+	if n%2 != 0 {
+		newArr = append(newArr, arr[n/2])
+	}
+
+	return newArr
+}
