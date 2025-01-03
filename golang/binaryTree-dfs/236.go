@@ -1,6 +1,7 @@
 package main
 
 // Longest common ancestor of a binary tree
+
 // Approach - 2
 // 1. The function lowestCommonAncestor takes in three parameters: the root of a binary tree (root) and two nodes of the binary tree (p and q).
 // 2. The first if statement checks if the root is None or if it is equal to either p or q. If either of these conditions is true, it means that
@@ -31,3 +32,90 @@ func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
 
 	return right
 }
+
+//--------------------------------------
+//Approach - 1
+// func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
+//     // Map to store ancestors of all nodes
+//     ansts := make(map[int][]*TreeNode)
+
+//     // Collect ancestors of all nodes
+//     findAncestors(root, p, q, nil, &ansts)
+
+//     // If ancestors of p or q are missing, return nil
+//     if _, foundP := ansts[p.Val]; !foundP {
+//         return nil
+//     }
+//     if _, foundQ := ansts[q.Val]; !foundQ {
+//         return nil
+//     }
+
+//     // Get the ancestors of p and q
+//     anstsOfP := ansts[p.Val]
+//     anstsOfQ := ansts[q.Val]
+
+//     //-----This is not correct, it assumes that the smallest-valued common ancestor
+//     //-----(by Val) is always the correct LCA, which is not true.
+//     //-----The correct LCA is the lowest (deepest) node in the tree that is a common ancestor
+//     //-----of both
+//     // // Use a map for faster lookups
+//     // ancestorsSet := make(map[int]bool)
+//     // for _, ancestor := range anstsOfP {
+//     //     ancestorsSet[ancestor.Val] = true
+//     // }
+
+//     // // Find the common ancestor with the smallest value
+//     // var lca *TreeNode
+//     // minVal := math.MaxInt
+//     // for _, ancestor := range anstsOfQ {
+//     //     if ancestorsSet[ancestor.Val] && ancestor.Val < minVal {
+//     //         lca = ancestor
+//     //         minVal = ancestor.Val
+//     //     }
+//     // }
+
+//     // return lca
+//     // Find the lowest common ancestor
+//     lca := findLowestCommonAncestor(anstsOfP, anstsOfQ)
+//     return lca
+// }
+
+// func findAncestors(node, p, q *TreeNode, path []*TreeNode, ansts *map[int][]*TreeNode) {
+//     if node == nil {
+//         return
+//     }
+
+//     // Add the current node to the path
+//     path = append(path, node)
+
+//     // Store the path (ancestors) for the current node
+//     (*ansts)[node.Val] = append([]*TreeNode{}, path...)
+
+//     // Stop if both p and q have ancestors
+//     if _, foundP := (*ansts)[p.Val]; foundP {
+//         if _, foundQ := (*ansts)[q.Val]; foundQ {
+//             return
+//         }
+//     }
+
+//     // Continue traversing the tree
+//     findAncestors(node.Left, p, q, path, ansts)
+//     findAncestors(node.Right, p, q, path, ansts)
+// }
+
+// func findLowestCommonAncestor(anstsOfP, anstsOfQ []*TreeNode) *TreeNode {
+//     minLen := len(anstsOfP)
+//     if len(anstsOfQ) < minLen {
+//         minLen = len(anstsOfQ)
+//     }
+
+//     var lca *TreeNode
+//     for i := 0; i < minLen; i++ {
+//         if anstsOfP[i] == anstsOfQ[i] {
+//             lca = anstsOfP[i]
+//         } else {
+//             break
+//         }
+//     }
+//     return lca
+// }
