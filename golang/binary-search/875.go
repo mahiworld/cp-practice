@@ -1,6 +1,7 @@
 package main
 
 // Koko Eating Bananas
+// Approach : Find kmin & kmax, return in h == len(piles), apply binary search and returm kmin
 func minEatingSpeed(piles []int, h int) int {
 	kmin, kmax := 1, 1
 	for _, ele := range piles {
