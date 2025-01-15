@@ -1,7 +1,5 @@
 package main
 
-import "container/heap"
-
 //Kth Largest Element in an Array
 //Aproach:1 -----------------------------
 // func findKthLargest(nums []int, k int) int {
@@ -80,35 +78,63 @@ import "container/heap"
 // 	return storeIndex
 // }
 
-// Approach:2 --------------------------------
-type MinHeap []int
+//Approach:2 --------------------------------
+// type MinHeap []int
+// func (h MinHeap) Len() int           { return len(h) }
+// func (h MinHeap) Less(i, j int) bool { return h[i] < h[j] }
+// func (h MinHeap) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }
 
-func (h MinHeap) Len() int           { return len(h) }
-func (h MinHeap) Less(i, j int) bool { return h[i] < h[j] }
-func (h MinHeap) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }
+// func (h *MinHeap) Push(x interface{}) {
+// 	*h = append(*h, x.(int))
+// }
 
-func (h *MinHeap) Push(x interface{}) {
-	*h = append(*h, x.(int))
-}
+// func (h *MinHeap) Pop() interface{} {
+// 	old := *h
+// 	n := len(old)
+// 	x := old[n-1]
+// 	*h = old[0 : n-1]
+// 	return x
+// }
 
-func (h *MinHeap) Pop() interface{} {
-	old := *h
-	n := len(old)
-	x := old[n-1]
-	*h = old[0 : n-1]
-	return x
-}
+// func findKthLargest(nums []int, k int) int {
+// 	minHeap := &MinHeap{}
+// 	heap.Init(minHeap)
 
+// 	for _, num := range nums {
+// 		heap.Push(minHeap, num)
+// 		if minHeap.Len() > k {
+// 			heap.Pop(minHeap)
+// 		}
+// 	}
+
+// 	return (*minHeap)[0]
+// }
+
+// Approach: 3 ------------------------------------
 func findKthLargest(nums []int, k int) int {
-	minHeap := &MinHeap{}
-	heap.Init(minHeap)
-
+	minValue, maxValue := nums[0], nums[0]
 	for _, num := range nums {
-		heap.Push(minHeap, num)
-		if minHeap.Len() > k {
-			heap.Pop(minHeap)
+		if num < minValue {
+			minValue = num
+		}
+		if num > maxValue {
+			maxValue = num
 		}
 	}
 
-	return (*minHeap)[0]
+	count := make([]int, maxValue-minValue+1)
+	for _, num := range nums {
+		count[num-minValue]++
+	}
+
+	// Find the kth largest element
+	remaining := k
+	for i := len(count) - 1; i >= 0; i-- {
+		remaining -= count[i]
+		if remaining <= 0 {
+			return i + minValue
+		}
+	}
+
+	return -1
 }
