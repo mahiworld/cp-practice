@@ -33,10 +33,10 @@ func (s *SmallestInfiniteSet) PopSmallest() int {
 		delete(s.set, smallest)
 
 		return smallest
-	} else {
-		s.cur++
-		return s.cur - 1
 	}
+
+	s.cur++
+	return s.cur - 1
 }
 
 // AddBack ...
