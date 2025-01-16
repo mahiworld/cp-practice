@@ -3,11 +3,14 @@ package main
 import "math"
 
 // Smallest Number in Infinite Set
+
+// SmallestInfiniteSet ...
 type SmallestInfiniteSet struct {
 	cur int
 	set map[int]bool
 }
 
+// Constructor ...
 func Constructor() SmallestInfiniteSet {
 	return SmallestInfiniteSet{
 		cur: 1,
@@ -15,29 +18,31 @@ func Constructor() SmallestInfiniteSet {
 	}
 }
 
-func (this *SmallestInfiniteSet) PopSmallest() int {
-	if len(this.set) > 0 {
+// PopSmallest ...
+func (s *SmallestInfiniteSet) PopSmallest() int {
+	if len(s.set) > 0 {
 		// Find the smallest element in the set
 		smallest := math.MaxInt
-		for num := range this.set {
+		for num := range s.set {
 			if num < smallest {
 				smallest = num
 			}
 		}
 
 		// Remove the smallest element from the set
-		delete(this.set, smallest)
+		delete(s.set, smallest)
 
 		return smallest
 	} else {
-		this.cur++
-		return this.cur - 1
+		s.cur++
+		return s.cur - 1
 	}
 }
 
-func (this *SmallestInfiniteSet) AddBack(num int) {
-	if this.cur > num {
-		this.set[num] = true
+// AddBack ...
+func (s *SmallestInfiniteSet) AddBack(num int) {
+	if s.cur > num {
+		s.set[num] = true
 	}
 }
 
